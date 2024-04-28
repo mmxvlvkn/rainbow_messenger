@@ -1,6 +1,0 @@
-{
-    "prettier.tabWidth": 4,
-    "prettier.withNodeModules": true,
-    "editor.insertSpaces": false,
-    "editor.tabCompletion": "on"
-}
