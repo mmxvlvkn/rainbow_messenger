@@ -1,7 +1,7 @@
-const ExceptionHandler = require('../exceptions/ExceptionHandler.js')
-const ResService = require('../services/ResService.js');
+import ExceptionHandler from '../exceptions/ExceptionHandler.js';
+import ResService from '../services/ResService.js';
 
-module.exports = (err, req, res, next) => {
+export default (err, req, res, next) => {
     if (err instanceof ExceptionHandler) {
         return ResService.create(res, err.status, {message: err.message})
     }

@@ -1,8 +1,3 @@
-import {useContext, useState} from 'react'
-import {ColorContext} from '../providers/ColorProvider';
-import ColorService from '../services/ColorService.js';
-
-
 export function Post(props) {
 
     return (

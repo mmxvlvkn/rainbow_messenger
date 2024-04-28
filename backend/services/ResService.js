@@ -1,9 +1,7 @@
-const cors = require('cors')
-const siteHost = process.env.siteHost;
-const ExceptionHandler = require('../exceptions/ExceptionHandler.js')
+import ExceptionHandler from '../exceptions/ExceptionHandler.js';
 
-class ResService {
-    create(res, status, data) {
+export default class ResService {
+    static create(res, status, data) {
         try {
             res.status(status);
             return res.json(data);
@@ -13,5 +11,3 @@ class ResService {
         }
     }
 }
-
-module.exports = new ResService();

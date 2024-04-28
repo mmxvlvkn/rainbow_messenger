@@ -1,5 +1,5 @@
-class ValidationService {
-    regValidation(values) {
+export default class ValidationService {
+    static regValidation(values) {
         let maxErrorLen = 90;
         let errorMessage = '';
 
@@ -58,7 +58,7 @@ class ValidationService {
             status
         }
     }
-    loginValidation(values) {
+    static loginValidation(values) {
         let maxErrorLen = 500;
         let errorMessage = '';
 
@@ -92,4 +92,3 @@ class ValidationService {
         }
     }
 }
-module.exports = new ValidationService();

@@ -1,8 +1,8 @@
-const cors = require('cors')
+import cors from 'cors';
 const siteHost = process.env.siteHost;
 
-class CorsService {
-    set(app) {
+export default class CorsService {
+    static set(app) {
         try {
             app.use(cors(this.corsOptions));
             app.options('*', cors(this.corsOptions));
@@ -12,12 +12,10 @@ class CorsService {
         }
     }
 
-    corsOptions = {
+    static corsOptions = {
         "origin": siteHost,
         "methods": "GET, HEAD, PUT, PATCH, POST, DELETE",
         "credentials": true,
         "allowedHeaders": "Content-Type, Authorization",
     }
 }
-
-module.exports = new CorsService();

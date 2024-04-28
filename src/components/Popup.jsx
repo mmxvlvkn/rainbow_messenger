@@ -1,4 +1,4 @@
-import ColorService from "../services/ColorService"
+import ColorService from "../services/ColorService.js"
 
 export function Popup(props) {
   return (

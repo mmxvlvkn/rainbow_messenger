@@ -1,8 +1,9 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const authRouter = require('./routers/AuthRouter');
-const CorsService = require('./services/CorsService');
-const errorMiddleware = require('./middlewares/errorMiddleware');
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import authRouter from './routers/AuthRouter.js';
+import postRouter from './routers/PostRouter.js';
+import CorsService from './services/CorsService.js';
+import errorMiddleware from './middlewares/errorMiddleware.js';
 
 const PORT = 5000;
 const app = express();
@@ -11,6 +12,7 @@ app.use(cookieParser());
 CorsService.set(app);
 
 app.use('/', authRouter);
+app.use('/', postRouter);
 app.use(errorMiddleware);
 
 function start() {

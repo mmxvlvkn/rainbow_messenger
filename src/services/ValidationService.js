@@ -1,5 +1,5 @@
-class ValidationService {
-    regValidation(values) {
+export default class ValidationService {
+    static regValidation(values) {
         let maxErrorLen = 90;
         let errorMessage = '';
         let errorInputs = [];
@@ -69,7 +69,7 @@ class ValidationService {
             status
         }
     }
-    loginValidation(values) {
+    static loginValidation(values) {
         let maxErrorLen = 500;
         let errorMessage = '';
         let errorInputs = [];
@@ -109,5 +109,23 @@ class ValidationService {
             status
         }
     }
+
+    static createPostValidation(values) {
+        let errorInputs = {
+            title: false,
+            desc: false,
+            status: true
+        };
+
+        if (!values.title.length) {
+            errorInputs.title = true;
+            errorInputs.status = false;
+        }
+        if (!values.desc.length) {
+            errorInputs.desc = true;
+            errorInputs.status = false;
+        }
+
+        return errorInputs;
+    }
 }
-module.exports = new ValidationService();

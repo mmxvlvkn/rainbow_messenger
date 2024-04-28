@@ -1,20 +1,21 @@
 import FetchService from './FetchService.js';
 
-class InterceptorService {
-    async authInterceptor(callback) {
+export default class InterceptorService {
+    static async authInterceptor(callback) {
         const data = await callback();
+        console.log(data)
         if (!data.status) {
             return await FetchService.refresh().then(async data => {
                 if (!data.status) {
-                    return data;
+                    return {...data, authErr: true};
                 } else {
                     localStorage.setItem("accessToken", data.data.accessToken);
-                    return (await callback());
+                    return {...(await callback()), authErr: false};
                 }
             });
         }
 
-        return data;
+        console.log(data)
+        return {...data, authErr: false};
     }
 }
-export default new InterceptorService();

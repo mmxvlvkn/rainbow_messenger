@@ -1,7 +1,7 @@
 import colorIcon from '../assets/color.svg';
-import React, {useState, useContext, useLayoutEffect} from 'react'
-import { ColorContext } from '../providers/ColorProvider'
-import { Popup } from './Popup'
+import React, {useState, useContext} from 'react'
+import { ColorContext } from '../providers/ColorProvider.jsx'
+import { Popup } from './Popup.jsx'
 import { Input } from './Input.jsx'
 import { ColorButton } from './ColorButton.jsx'
 import ColorService from '../services/ColorService.js';
@@ -10,7 +10,7 @@ import {useUpdateEffect} from '../hooks/useUpdateEffect.js';
 export function ColorForm(props) {
     const [inputColorValue, setInputColorValue] = useState('');
     const [isInputError, setIsInputError] = useState(false);
-    const [inputTpColorValue, setInputTpColorValue] = useState('#e44db4');
+    const [inputTpColorValue, setInputTpColorValue] = useState('#' + ColorService.getColorSave(localStorage.getItem("color")));
     const {color, setColor} = useContext(ColorContext);
     const [popupStatus, setPopupStatus] = useState(false);
 
@@ -21,6 +21,12 @@ export function ColorForm(props) {
         if (ColorService.colorValidation(inputColorValue)) {
             ColorService.setTheme(setColor, inputColorValue);
             localStorage.setItem("color", inputColorValue);
+            if (inputColorValue.length === 6) {
+                setInputTpColorValue('#' + inputColorValue);
+            } else {
+                setInputTpColorValue('#' + ColorService.convertToLongValue(inputColorValue));
+
+            }
         } else {
             setIsInputError(true);
         }
@@ -35,11 +41,6 @@ export function ColorForm(props) {
             localStorage.setItem("color", inputTpColorValue.slice(1));
         }
     }, [inputTpColorValue]);
-
-    useLayoutEffect(() => {
-        console.log(localStorage.getItem("color"))
-        ColorService.setTheme(setColor, localStorage.getItem("color"));
-    }, []);
 
     return (
         <>

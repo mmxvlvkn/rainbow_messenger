@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {AuthContext} from '../providers/AuthProvider.jsx';
 import { Popup } from './Popup.jsx'
 import { Input } from './Input.jsx'
 import { ColorButton } from './ColorButton.jsx'
@@ -6,6 +7,7 @@ import {useFetching} from "../hooks/useFetching.js";
 import { Loading } from './Loading.jsx';
 
 export function AuthForm(props) {   
+    const {authStatus, setAuthStatus} = useContext(AuthContext);
     const [inputs, setInputs] = useState(props.inputsData.reduce((accumulator, currentValue) => {
         accumulator[currentValue.name] = '';
         return accumulator;
@@ -34,7 +36,7 @@ export function AuthForm(props) {
                     // Отрисовываем вход
                     localStorage.setItem("authStatus", "true");
                     localStorage.setItem("accessToken", data.accessToken);
-                    props.setAuthStatus(true);
+                    setAuthStatus(true);
                     props.setPopupStatus(false);             
                 }
             })

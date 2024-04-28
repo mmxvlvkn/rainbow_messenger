@@ -15,3 +15,9 @@ create TABLE person_token(
     person_id INTEGER,
     token VARCHAR(250)
 );
+
+create TABLE post(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100),
+    descript VARCHAR(1000)
+);

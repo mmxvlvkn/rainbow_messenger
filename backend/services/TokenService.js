@@ -1,15 +1,15 @@
-const BDService = require('../services/BDService.js');
-const ResService = require('../services/ResService.js');
-const jwt = require('jsonwebtoken');
-const ExceptionHandler = require('../exceptions/ExceptionHandler.js')
+import jwt from 'jsonwebtoken';
+import BDService from '../services/BDService.js';
+import ResService from '../services/ResService.js';
+import ExceptionHandler from '../exceptions/ExceptionHandler.js';
 
-class TokenService {
+export default class TokenService {
     constructor() {
         this.generateTokens = this.generateTokens.bind(this);
         this.generateAccessToken = this.generateAccessToken.bind(this);
     }
 
-    generateAccessToken(payload) {
+    static generateAccessToken(payload) {
         try {
             return jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {expiresIn: '15m'});
         } catch (err) {
@@ -18,7 +18,7 @@ class TokenService {
         }
     }
 
-    generateTokens(payload) {
+    static generateTokens(payload) {
         try {
             const accessToken = this.generateAccessToken(payload);
             if (!accessToken) {
@@ -35,7 +35,7 @@ class TokenService {
         }
     }
 
-    async pushTokens(res, nick, id = -1) {
+    static async pushTokens(res, nick, id = -1) {
         try {
             if (id === -1) {
                 const idData = await BDService.getUserIdByNick(nick);
@@ -57,7 +57,7 @@ class TokenService {
             throw ExceptionHandler.InternalServerError();
         }
     }
-    validateRefreshToken(token) {
+    static validateRefreshToken(token) {
         try {
             try {
                 return jwt.verify(token, process.env.REFRESH_SECRET_KEY);
@@ -69,7 +69,7 @@ class TokenService {
             throw err || ExceptionHandler.InternalServerError();
         }
     }
-    validateAccessToken(token) {
+    static validateAccessToken(token) {
         try {
             try {
                 return jwt.verify(token, process.env.ACCESS_SECRET_KEY);
@@ -82,5 +82,3 @@ class TokenService {
         }
     }
 }
-
-module.exports = new TokenService();

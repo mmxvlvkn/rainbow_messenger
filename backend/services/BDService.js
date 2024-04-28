@@ -1,12 +1,12 @@
-const database = require('../database/database.js');
+import database from '../database/database.js';
 
-class BDService {
+export default class BDService {
     constructor() {
         this.getUserByEmail = this.getUserByEmail.bind(this);
         this.getUserByNick = this.getUserByNick.bind(this);
     }
 
-    async getCode() {
+    static async getCode() {
         try {
             return {
                 data: (await database.query('SELECT * FROM code')).rows[0].code,
@@ -16,7 +16,7 @@ class BDService {
             console.log('BD: get code error: ' + err);
         }
     }
-    async createUser(email, nickname, pass, roole) {
+    static async createUser(email, nickname, pass, roole) {
         try {
             (await database.query('INSERT INTO person (email, nickname, pass, roole) values ($1, $2, $3, $4)', [
                 email, 
@@ -38,7 +38,7 @@ class BDService {
             };
         }
     }
-    async getUserByEmail(email) {
+    static async getUserByEmail(email) {
         try {
             return {
                 data: (await database.query('SELECT * FROM person WHERE email = $1', [email])).rows,
@@ -53,7 +53,7 @@ class BDService {
             };
         }
     }
-    async getUserByNick(nick) {
+    static async getUserByNick(nick) {
         try {
             return {
                 data: (await database.query('SELECT * FROM person WHERE nickname = $1', [nick])).rows,
@@ -68,7 +68,7 @@ class BDService {
             };
         }
     }
-    async checkUserExistence(email, nick) {
+    static async checkUserExistence(email, nick) {
         try {
             if ((await this.getUserByEmail(email)).data.length) {
                 return {
@@ -92,7 +92,7 @@ class BDService {
             console.log('BD: get user existence error: ' + err);
         }
     }
-    async getUserIdByNick(nick) {
+    static async getUserIdByNick(nick) {
         try {
             return {
                 data: (await database.query('SELECT id FROM person WHERE nickname = $1', [nick])).rows[0].id,
@@ -107,7 +107,7 @@ class BDService {
             };
         }
     }
-    async saveToken(id, token) {
+    static async saveToken(id, token) {
         try {
             (await database.query('INSERT INTO person_token (person_id, token) values ($1, $2)', [
                 id, 
@@ -127,7 +127,7 @@ class BDService {
             };
         }
     }
-    async getUserIdByToken(token) {
+    static async getUserIdByToken(token) {
         try {
             return {
                 data: (await database.query('SELECT * FROM person_token WHERE token = $1', [token])).rows[0],
@@ -142,7 +142,7 @@ class BDService {
             };
         }
     }
-    async deleteToken(token) {
+    static async deleteToken(token) {
         try {
             (await database.query('DELETE FROM person_token WHERE token = $1', [token]));
             
@@ -159,6 +159,25 @@ class BDService {
             };
         }
     }
-}
+    static async createPost(title, desc) {
+        try {
+            let data = (await database.query('INSERT INTO post (title, decs, file) values ($1, $2, $3)', [
+                title, 
+                desc,  
+                'none'
+            ]));
 
-module.exports = new BDService();
+            return {
+                data,
+                status: true
+            };
+        } catch(err) {
+            console.log('BD: create user error error: ' + err);
+
+            return {
+                data: [],
+                status: false
+            };
+        }
+    }
+}

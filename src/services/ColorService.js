@@ -1,7 +1,13 @@
-class ColorService {
-    constructor() {}
+export default class ColorService {
+    constructor() {
+        this.colorValidation = this.colorValidation.bind(this);
+    }
 
-    setTheme(setColor, themeColor) {
+    static setTheme(setColor, themeColor) {
+        if (!themeColor) {
+            return null;
+        }
+
         const arrLettersOfColor = [0, 0, 0]
           
         if (themeColor.length == 6) {
@@ -26,13 +32,18 @@ class ColorService {
             })
         }
     }
-    getBorderBottom(color, hight = 2) {
+    static getBorderBottom(color, hight = 2) {
         return `${hight}px solid ${'#' + color}`;
     }
-    getColorWithOpacity(value, colorDec = '0, 0, 0') {
+    static getColorWithOpacity(value, colorDec = '0, 0, 0') {
         return `rgba(${colorDec}, ${value})`
     }
-    getHoverColor(themeColor) {
+    static getHoverColor(themeColor) {
+        console.log(themeColor)
+        if (!themeColor) {
+            return 'e44db4';
+        }
+
         let hoverColor = ''
 
         if (themeColor.length == 6) {
@@ -50,9 +61,24 @@ class ColorService {
 
         return hoverColor;
     }
-    colorValidation(color) {
+    static colorValidation(color) {
         return ((/^[a-f0-9]{6}$/iu.test(color)) || (/^[a-f0-9]{3}$/iu.test(color)));
     }
-}
+    static convertToLongValue(value) {
+        if (!value) {
+            return 'e44db4'
+        }
 
-module.exports = new ColorService();
+
+        if (value.length !== 3) return value;
+
+        return value[0] + value[0] + value[1] + value[1] + value[2] + value[2] 
+    }
+    static getColorSave(color) {
+        if (this.colorValidation(color)) {
+            return color;
+        } 
+
+        return 'e44db4'
+    }
+}

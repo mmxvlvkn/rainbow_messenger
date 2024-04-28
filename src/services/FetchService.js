@@ -1,7 +1,7 @@
 const serverHost = process.env.REACT_APP_SERVER_HOST;
 
-class FetchService {
-    async reg(dataToSend) {
+export default class FetchService {
+    static async reg(dataToSend) {
         return await fetch(`${serverHost}/reg`, {
             credentials: 'include',
             method: 'POST', 
@@ -30,7 +30,7 @@ class FetchService {
             }
         });
     }
-    async login(dataToSend) {
+    static async login(dataToSend) {
         return await fetch(`${serverHost}/login`, {
             credentials: 'include',
             method: 'POST', 
@@ -59,7 +59,7 @@ class FetchService {
             }
         });
     }
-    async refresh() {
+    static async refresh() {
         return await fetch(`${serverHost}/refresh`, {
             credentials: 'include',
             method: 'POST', 
@@ -83,7 +83,7 @@ class FetchService {
             }
         });
     }
-    async checkAuth() {
+    static async checkAuth() {
         return await fetch(`${serverHost}/check_auth`, {
             method: 'GET', 
             headers: {
@@ -107,5 +107,28 @@ class FetchService {
             }
         });
     }
+    static async createPost(data) {
+        return await fetch(`${serverHost}/create_post`, {
+            method: 'POST', 
+            body: data,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        .then(async (res) => {
+            const status = res.status;
+            const data = await res.json();
+
+            return {
+                status: (status == 200) ? true : false,
+                data
+            }
+        })
+        .catch(() => {
+            return {
+                status: false,
+                data: null
+            }
+        });
+    }
 }
-module.exports = new FetchService();

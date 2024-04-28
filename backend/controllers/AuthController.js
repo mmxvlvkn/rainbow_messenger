@@ -1,19 +1,19 @@
-require('dotenv').config();
+import {} from 'dotenv/config'
+import bcrypt from 'bcrypt';
+import ValidationService from '../services/ValidationService.js';
+import ResService from '../services/ResService.js';
+import BDService from '../services/BDService.js';
+import TokenService from '../services/TokenService.js';
+import ExceptionHandler from '../exceptions/ExceptionHandler.js'
 const passSalt = process.env.passSalt;
-const bcrypt = require('bcrypt');
-const ValidationService = require('../services/ValidationService.js');
-const ResService = require('../services/ResService.js');
-const BDService = require('../services/BDService.js');
-const TokenService = require('../services/TokenService.js');
-const ExceptionHandler = require('../exceptions/ExceptionHandler.js')
 
 
-class regController {
+export default class regController {
     constructor() {
         //this.sendEmailCode = this.sendEmailCode.bind(this);
     }
 
-    async registration(req, res, next) {
+    static async registration(req, res, next) {
         try {
             const userData = req.body
 
@@ -59,7 +59,7 @@ class regController {
             next(error);
         }
     }
-    async login(req, res, next) {
+    static async login(req, res, next) {
         try {
             const userData = req.body
 
@@ -97,7 +97,7 @@ class regController {
             next(error);
         }
     }
-    async refresh(req, res, next) {
+    static async refresh(req, res, next) {
         try {
             const userData = req.body;
             let {refreshToken} = req.cookies;
@@ -129,7 +129,7 @@ class regController {
             next(error);
         }
     }
-    async checkAuth(req, res, next) {
+    static async checkAuth(req, res, next) {
         try {
             const token = req.headers.authorization;
             TokenService.validateAccessToken(token.split(' ')[1]);
@@ -139,5 +139,3 @@ class regController {
         }
     }
 }
-
-export default new regController();

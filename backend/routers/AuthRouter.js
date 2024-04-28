@@ -1,10 +1,10 @@
-const Router = require('express');
-const regRouter = new Router();
-import authController from '../controllers/AuthController';
+import {Router} from 'express';
+import authController from '../controllers/AuthController.js';
+const authRouter = new Router();
 
-regRouter.post('/reg', authController.registration);
-regRouter.post('/login', authController.login);
-regRouter.get('/check_auth', authController.checkAuth);
-regRouter.post('/refresh', authController.refresh);
+authRouter.post('/reg', authController.registration);
+authRouter.post('/login', authController.login);
+authRouter.get('/check_auth', authController.checkAuth);
+authRouter.post('/refresh', authController.refresh);
 
-module.exports = regRouter;
+export default authRouter;

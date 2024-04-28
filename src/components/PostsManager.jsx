@@ -1,9 +1,10 @@
-import {useContext, useState} from 'react'
-import {ColorContext} from '../providers/ColorProvider';
-import ColorService from '../services/ColorService.js';
+import {useState, useContext} from 'react'
+import {AuthContext} from '../providers/AuthProvider.jsx';
 import { Post } from './Post.jsx';
+import { PostCreater } from './PostCreater.jsx';
 
 export function PostsManager() {
+    const {authStatus, setAuthStatus} = useContext(AuthContext);
     const [postsArr, setPostsArr] = useState([
         {
             id: 1,
@@ -19,6 +20,7 @@ export function PostsManager() {
 
     return (
         <div className="posts__container">
+            {authStatus && <PostCreater></PostCreater>}
             {postsArr.map(post => 
                 <Post
                     title={post.title}

@@ -1,5 +1,6 @@
 import {useContext, useState, useEffect} from 'react'
-import {ColorContext} from '../providers/ColorProvider';
+import {ColorContext} from '../providers/ColorProvider.jsx';
+import {AuthContext} from '../providers/AuthProvider.jsx';
 import {Logo} from './Logo.jsx';
 import { ColorForm } from './ColorForm.jsx';
 import FetchService from '../services/FetchService.js';
@@ -11,8 +12,8 @@ import { ColorButton } from './ColorButton.jsx';
 
 export function Header() {
     const {color, setColor} = useContext(ColorContext);
+    const {authStatus, setAuthStatus} = useContext(AuthContext);
     const [hoverStatus, setHoverStatus] = useState(false);
-    const [authStatus, setAuthStatus] = useState(false);
     const [popupRegStatus, setPopupRegStatus] = useState(false);
     const [popupLoginStatus, setPopupLoginStatus] = useState(false);
     const [isRendered, setIsRendered] = useState(false);
@@ -73,7 +74,6 @@ export function Header() {
                     </ColorButton>
                     <AuthForm
                       title="Регистрация"
-                      setAuthStatus={setAuthStatus}
                       popupStatus={popupRegStatus}
                       setPopupStatus={setPopupRegStatus}
                       inputsData={[
@@ -92,7 +92,6 @@ export function Header() {
                     >Вход</button>
                     <AuthForm
                       title="Авторизация"
-                      setAuthStatus={setAuthStatus}
                       popupStatus={popupLoginStatus}
                       setPopupStatus={setPopupLoginStatus}
                       inputsData={[

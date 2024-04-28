@@ -3,7 +3,7 @@ import {ColorContext} from '../providers/ColorProvider.jsx';
 import ColorService from '../services/ColorService.js';
 
 
-export function Input(props) {
+export function Textarea(props) {
     const {color, setColor} = useContext(ColorContext);
 
     const handleChange = (event) => {
@@ -15,16 +15,16 @@ export function Input(props) {
     }
 
     return (
-        <input 
+        <textarea 
             id={props.id}
             type={props.type}
             onChange={handleChange}
             onFocus={handleChange}
             value={props.inputValue}
             placeholder={props.placeholder}
-            className={'input ' + props.className}
+            className={'textarea ' + props.className}
             style={{
-                borderBottom: ColorService.getBorderBottom(color.color)
+                borderLeft: ColorService.getBorderBottom(color.color)
             }}
         />
     )

@@ -1,4 +1,4 @@
-module.exports = class ExceptionHandler extends Error {
+export default class ExceptionHandler extends Error {
     status;
 
     constructor(status, message, errors = []) {
